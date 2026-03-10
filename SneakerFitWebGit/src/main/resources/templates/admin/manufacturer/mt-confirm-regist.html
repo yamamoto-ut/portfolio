@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Bootstrap 5 -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<title>確認</title>
+
+</head>
+
+<body class="bg-light">>
+	<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+		<div class="card shadow-lg p-4 border-0" style="width: 100%; max-width: 420px;">
+			<h2>メーカー登録確認</h2>
+
+			<table class="confirm-table" th:object="${mtRegistForm}">
+				<tr>
+					<td class="guide">【メーカー名】</td>
+					<td th:text="*{manufacturerName}"></td>
+				</tr>
+			</table>
+			<br>
+			<div class="d-grid text-center">
+				<form th:action="@{/mt-confirm-regist}" method="POST" th:object="${mtRegistForm}">
+					<input type="hidden" th:field="*{manufacturerName}">
+					<input type="submit" value="登録実行" class="btn btn-primary">
+				</form>
+				<br>
+				<form th:action="@{/manufacturer-show-regist}" method="POST" th:object="${mtRegistForm}">
+					<input type="hidden" th:field="*{manufacturerName}">
+					<input type="submit" value="もどる" class="btn btn-secondary">
+				</form>
+			</div>
+
+
+
+
+			<br>
+			<div class="text-center">
+				<a th:href="@{/}" class="text-decoration-none small">
+					トップページに戻る
+				</a>
+			</div>
+		</div>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

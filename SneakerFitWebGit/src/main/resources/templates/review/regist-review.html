@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Foot Web</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" th:href="@{/css/review.css}"> <!-- th:の書き方 -->
+</head>
+
+<body>
+
+	<!-- ===== ヘッダー ===== -->
+	<header class="header">
+		<div class="header-inner">
+
+			<a th:href="@{/}" class="logo">
+				Sneaker<span>Fit</span>
+			</a>
+
+			<!-- ハンバーガー用チェックボックス -->
+			<input type="checkbox" id="menu-toggle">
+			<!-- オーバーレイ -->
+			<label for="menu-toggle" class="overlay"></label>
+
+			<label for="menu-toggle" class="hamburger">
+				<span></span>
+				<span></span>
+				<span></span>
+			</label>
+
+			<!-- ナビゲーション -->
+			<nav class="nav">
+				<ul>
+					<li><a th:href="@{/}">Home</a></li>
+					<li><a th:href="@{/login}">Login</a></li>
+				</ul>
+			</nav>
+
+		</div>
+	</header>
+	<!-- ===== ここまでヘッダー ===== -->
+
+	<!-- ===== メイン ===== -->
+	<main class="container">
+		<h2>スニーカーレビュー画面</h2>
+		<!--		オブジェクトを指定${reviewRegistForm}-->
+		<form th:action="@{/regist-review}" method="POST" class="review-form" th:object="${reviewRegistForm}">
+			<!-- ブランド名 -->
+			<div class="form-group">
+				<label for="manufacturer">メーカー名</label>
+				<!--				<input type="text"  th:field="*{manufacturer}" >-->
+				<select id="manufacturer" th:field="*{manufacturerId}" required>
+					<option value="">メーカーを選択</option>
+					<option value="1">その他</option>
+					<option value="2">adidas</option>
+					<option value="3">アシックス</option>
+					<option value="4">Converse(コンバース)</option>
+					<option value="5">New Balance(ニューバランス)</option>
+					<option value="6">NIKE</option>
+					<option value="7">Puma</option>
+					<option value="8">Vans</option>
+					<option value="9">Mizuno(ミズノ)</option>
+				</select>
+
+				<div th:if="${#fields.hasErrors('manufacturerId')}" th:errors="*{manufacturerId}" class="error-msg"></div>
+				<!--					th:field="*{manufacturer}"名でフィールド名、値を同時に指定-->
+			</div>
+
+			<!-- モデル名 -->
+			<div class="form-group">
+				<label for="modelName">スニーカーモデル名（32文字以内）</label>
+				<input type="text" th:field="*{modelName}">
+				<div th:if="${#fields.hasErrors('modelName')}" th:errors="*{modelName}" class="error-msg"></div>
+			</div>
+
+			<!-- 足長 -->
+			<div class="form-group">
+				<label for="footLength">足長（cm）</label>
+				<input type="number" th:field="*{footLength}" step="0.1">
+				<div th:if="${#fields.hasErrors('footLength')}" th:errors="*{footLength}" class="error-msg"></div>
+			</div>
+
+			<!-- 足幅 -->
+			<div class="form-group">
+				<label for="footWidth">足幅（cm）</label>
+				<input type="number" th:field="*{footWidth}" step="0.1">
+				<div th:if="${#fields.hasErrors('footWidth')}" th:errors="*{footWidth}" class="error-msg"></div>
+			</div>
+
+			<!-- 足の甲の高さ -->
+			<div class="form-group">
+				<label for="instepHeight">足の甲の高さ（cm）</label>
+				<input type="number" th:field="*{instepHeight}" step="0.1">
+				<div th:if="${#fields.hasErrors('instepHeight')}" th:errors="*{instepHeight}" class="error-msg"></div>
+			</div>
+
+			<!-- 履いたサイズ -->
+			<div class="form-group">
+				<label for="shoeSize">履いたサイズ（cm）</label>
+				<input type="number" th:field="*{shoeSize}" step="0.5">
+				<div th:if="${#fields.hasErrors('shoeSize')}" th:errors="*{shoeSize}" class="error-msg"></div>
+			</div>
+
+			<!-- コメント -->
+			<div class="form-group">
+				<label for="comment">コメント</label>
+				<textarea th:field="*{comment}" rows="4" placeholder="サイズ感や履き心地を"></textarea>
+				<div th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}" class="error-msg"></div>
+			</div>
+
+			<button type="submit" class="submit-btn">投稿する</button>
+
+
+		</form>
+	</main>
+
+</body>
+
+</html>

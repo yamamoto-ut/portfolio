@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>ユーザ登録確認(管理者)</title>
+<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<h2>ユーザ登録確認(管理者)</h2>
+
+<table class="detail-table" th:object="${userRegistForm}">
+	<tr>
+		<td class="guide">【ユーザID】</td>
+		<td th:text="*{userId}"></td>
+	</tr>
+	<tr>
+		<td class="guide">【パスワード】</td>
+		<td th:text="*{password}"></td>
+	</tr>
+	<tr>
+		<td class="guide">【役割】</td>
+		<td th:text="*{role}"></td>
+	</tr>
+</table>
+<br>
+
+<form th:action="@{/admin/confirm-regist-user}" method="POST" 
+		th:object="${userRegistForm}">
+    <input type="hidden" th:field="*{userId}">
+    <input type="hidden" th:field="*{password}">
+    <input type="hidden" th:field="*{role}">
+    <input type="submit" value="登録実行" class="btn">
+</form>
+
+<form th:action="@{/admin/show-user-regist-form}" method="GET" 
+		th:object="${userRegistForm}">
+    <input type="hidden" th:field="*{userId}">
+    <input type="hidden" th:field="*{password}">
+    <input type="hidden" th:field="*{role}">
+    <input type="submit" value="もどる" class="btn">
+</form>
+
+<br>
+<a th:href="@{/}">メニューに戻る</a>
+
+</body>
+</html>

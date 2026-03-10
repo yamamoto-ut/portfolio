@@ -1,0 +1,32 @@
+@charset "UTF-8";
+
+
+body {
+	margin: 0;
+	background: #f2f2f2;
+	
+}
+
+/* 背景レイヤー */
+body::before {
+	content: "";
+	position: fixed;
+	/* 画面全体に固定 */
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+
+	background-image: url(../images/Uminami_IMG_3321.jpg);
+	background-blend-mode: darken;
+
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+
+	opacity: 0.3;
+	/* ← 薄さ調整（0.05〜0.15くらいが自然） */
+
+	z-index: -1;
+	/* コンテンツの背面へ */
+}

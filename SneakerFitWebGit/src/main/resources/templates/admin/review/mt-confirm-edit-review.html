@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>管理者編集の確認画面</title>
+
+	<!-- Bootstrap -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+	<div class="container mt-5">
+		<div class="card shadow-lg">
+			<div class="card-body">
+
+				<h1 class="h3 mb-4 text-center">レビュー編集の確認</h1>
+
+				<!--  レビュー表示エリア  -->
+				<div th:object="${mtEditReviewForm}">
+
+					<div class="mb-3">
+						<h5 class="fw-bold">
+							レビューID：
+							<span th:text="*{reviewId}"></span>
+						</h5>
+					</div>
+
+					<div class="row mb-3">
+						<div class="col-md-6">
+							<strong>メーカー名：</strong>
+							<span th:text="*{manufacturerName}"></span>
+						</div>
+						<div class="col-md-6">
+							<strong>モデル：</strong>
+							<span th:text="*{modelName}"></span>
+						</div>
+					</div>
+
+					<div class="mb-3">
+						<strong>履いたサイズ：</strong>
+						<span th:text="*{shoeSize}"></span> cm
+					</div>
+
+					<div class="row mb-3">
+						<div class="col-md-4">
+							足長：
+							<span th:text="*{footLength}"></span> cm
+						</div>
+						<div class="col-md-4">
+							足幅：
+							<span th:text="*{footWidth}"></span> cm
+						</div>
+						<div class="col-md-4">
+							甲高：
+							<span th:text="*{instepHeight}"></span> cm
+						</div>
+					</div>
+
+					<div class="mb-4">
+						<strong>コメント</strong>
+						<div class="border rounded p-3 bg-light">
+							<span th:text="*{comment}"></span>
+						</div>
+					</div>
+
+				</div>
+
+				<!-- ボタンエリア -->
+				<div class="d-flex justify-content-between">
+
+					<!-- 更新実行 -->
+					<form th:action="@{/mt-confirm-edit-review}" method="post" th:object="${mtEditReviewForm}">
+
+						<input type="hidden" th:field="*{reviewId}">
+						<input type="hidden" th:field="*{manufacturerId}">
+						<input type="hidden" th:field="*{modelName}">
+						<input type="hidden" th:field="*{shoeSize}">
+						<input type="hidden" th:field="*{footLength}">
+						<input type="hidden" th:field="*{footWidth}">
+						<input type="hidden" th:field="*{instepHeight}">
+						<input type="hidden" th:field="*{comment}">
+
+						<button type="submit" class="btn btn-primary">
+							更新の実行
+						</button>
+					</form>
+
+					<!-- 戻る -->
+					<form th:action="@{/show-edit-form-ret}" method="post" th:object="${mtEditReviewForm}">
+
+						<input type="hidden" th:field="*{reviewId}">
+						<input type="hidden" th:field="*{manufacturerId}">
+						<input type="hidden" th:field="*{modelName}">
+						<input type="hidden" th:field="*{shoeSize}">
+						<input type="hidden" th:field="*{footLength}">
+						<input type="hidden" th:field="*{footWidth}">
+						<input type="hidden" th:field="*{instepHeight}">
+						<input type="hidden" th:field="*{comment}">
+
+						<button type="submit" class="btn btn-secondary">
+							もどる
+						</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="ja" xmlns:th="http://www.thymeleaf.org">-->
+
+<!--<head>-->
+<!--	<meta charset="UTF-8">-->
+<!--	<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--	<title>管理者編集の確認画面</title>-->
+<!--	<link rel="stylesheet" th:href="@{/css/style.css}">-->
+<!--</head>-->
+
+<!--<body>-->
+<!--	 ===== 登録確認画面 ===== -->
+<!--	<main class="list-container">-->
+<!--		<h1 class="page-title">レビュー編集の確認</h1>-->
+
+<!--		<div th:object="${mtEditReviewForm}" class="review-card">-->
+<!--			<div class="review-header">-->
+<!--				<div class="title">-->
+<!--					<h2>-->
+<!--						レビュー【ID】<p th:text="*{reviewId}"></p>-->
+<!--						メーカー名：<p th:text="*{manufacturerName}"></p>-->
+<!--						モデル : <p th:text="*{modelName}"></p>-->
+<!--					</h2>-->
+<!--				</div>-->
+<!--				<h3 class="size">-->
+<!--					履いたサイズ：<span th:text="*{shoeSize}"></span>cm-->
+<!--				</h3>-->
+<!--				<div class="foot-info">-->
+<!--					<span>足長：<b th:text="*{footLength}"></b>cm</span>-->
+<!--					<span>足幅：<b th:text="*{footWidth}"></b>cm</span>-->
+<!--					<span>甲高：<b th:text="*{instepHeight}"></b>cm</span>-->
+<!--				</div>-->
+<!--				<p th:text="*{comment}" class="comment"></p>-->
+<!--			</div>-->
+<!--	</main>-->
+
+<!--	<form th:action="@{/mt-confirm-edit-review}" method="POST" th:object="${mtEditReviewForm}">-->
+<!--		<input type="hidden" th:field="*{reviewId}">-->
+<!--		<input type="hidden" th:field="*{manufacturerId}">-->
+<!--		<input type="hidden" th:field="*{modelName}">-->
+<!--		<input type="hidden" th:field="*{shoeSize}">-->
+<!--		<input type="hidden" th:field="*{footLength}">-->
+<!--		<input type="hidden" th:field="*{footWidth}">-->
+<!--		<input type="hidden" th:field="*{instepHeight}">-->
+<!--		<input type="hidden" th:field="*{comment}">-->
+<!--		<input type="submit" value="更新の実行" class="btn">-->
+<!--	</form>-->
+
+<!--	<form th:action="@{/show-edit-form-ret}" method="POST" th:object="${mtEditReviewForm}">-->
+<!--		<input type="hidden" th:field="*{reviewId}">-->
+<!--		<input type="hidden" th:field="*{manufacturerId}">-->
+<!--		<input type="hidden" th:field="*{modelName}">-->
+<!--		<input type="hidden" th:field="*{shoeSize}">-->
+<!--		<input type="hidden" th:field="*{footLength}">-->
+<!--		<input type="hidden" th:field="*{footWidth}">-->
+<!--		<input type="hidden" th:field="*{instepHeight}">-->
+<!--		<input type="hidden" th:field="*{comment}">-->
+<!--		<input type="submit" value="もどる" class="btn">-->
+<!--	</form>-->
+
+<!--</body>-->
+
+<!--</html>-->

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="SneakerFit - 人気スニーカーのレビューが見られる、ユーザー参加型レビューサイト。お気に入りのスニーカーを探したり、自分のレビューを投稿できます。">
+	<meta name="keywords" content="スニーカー,レビュー,人気,ユーザー投稿,SneakerFit">
+	<title>Home - SneakerFit</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" th:href="@{/css/index.css}">
+</head>
+
+<body class="bg-light">
+
+	<!--  ヘッダー  -->
+	<nav class="navbar navbar-expand-lg navbar-dark bg-primary ">
+		<div class="container">
+			<a class="navbar-brand" th:href="@{/}">Sneaker<span class="fw-bold">Fit</span></a>
+
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav ms-auto">
+					<li class="nav-item"><a class="nav-link" th:href="@{/}">Home</a></li>
+					<!-- 未ログインの人だけ表示-->
+					<li class="nav-item" sec:authorize="isAnonymous()"><a class="nav-link" th:href="@{/login}">Login</a>
+					</li>
+
+					<!-- ログインの人だけ表示-->
+					<li class="nav-item" sec:authorize="isAuthenticated()">
+						<form th:action="@{/logout}" method="POST">
+							<button type="submit" class="btn btn-outline-light btn-sm">Logout</button>
+						</form>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<!--  ここまでヘッダー  -->
+	<!--	justify-content-center : 上下中央に配置。align-items-center : 左右中央に配置。-->
+	<!-- ===== Hero セクション ===== -->
+	<section class="hero position-relative text-white mb-4">
+		<!-- 背景画像 -->
+		<div class="hero-section text-center text-white d-flex flex-column justify-content-center align-items-center">
+			<h1 class="hero-title">SneakerFit</h1>
+			<p class="hero-subtitle">気になるスニーカーのレビューを見つけよう</p>
+		</div>
+	</section>
+
+
+	<div class="container mx-auto w-75">
+		<!-- 検索フォーム + ユーザーカード -->
+		<div class="row g-3 mb-4">
+			<!-- 左：検索フォーム（70％） -->
+			<div class="col-12 col-md-8">
+				<div class="card p-3 shadow-sm">
+					<h4>メーカー検索</h4>
+					<form th:action="@{/manufacturer-search}" method="get" th:object="${searchForm}">
+						<div class="mb-2">
+							<label>メーカー名（部分一致）</label>
+							<input type="text" th:field="*{manufacturerName}" class="form-control">
+						</div>
+						<button type="submit" class="btn btn-primary">一覧を表示</button>
+					</form>
+					<!--検索に該当しなければ、メッセージ-->
+					<div th:if="${msg}" class="alert alert-warning mt-2" th:text="${msg}"></div>
+				</div>
+			</div>
+
+			<!-- 右：ユーザーカード（30％） -->
+			<div class="col-12 col-md-4">
+				<div class="card p-3 shadow-sm">
+					<!-- ログイン済み -->
+					<div sec:authorize="isAuthenticated()" class="text-center mb-2">
+						<div>ユーザー: <span sec:authentication="name"></span></div>
+						<a th:href="@{/show-review-form}" class="btn btn-primary btn-sm w-100 mt-2">私もレビューする</a>
+					</div>
+
+					<!-- 未ログイン ゲスト表示する-->
+					<div sec:authorize="isAnonymous()" class="text-center">
+						<div>ユーザー: ゲスト</div>
+						<form th:action="@{/user/show-user-regist-form}" method="get" class="mt-2">
+							<button type="submit" class="btn btn-outline-secondary btn-sm w-100">新規ユーザー登録</button>
+						</form>
+						<a th:href="@{/login}" class="btn btn-outline-secondary btn-sm w-100 mt-2">ログイン</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- メーカー 一覧（中央に配置）-->
+		<div th:if="${manufacturerList} != null" class="card p-3 shadow-sm mx-auto mb-4">
+			<h4 class="text-center">メーカー一覧</h4>
+			<table class="table table-striped table-hover text-center">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>名前</th>
+						<th>レビュー数</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="manufacturer : ${manufacturerList}">
+						<td th:text="${manufacturer.manufacturerId}"></td>
+						<td th:text="${manufacturer.manufacturerName}"></td>
+						<td th:text="${manufacturer.reviewCnt}"></td>
+						<td>
+							<form th:action="@{/search-review}" method="get">
+								<input type="hidden" name="manufacturerId" th:value="${manufacturer.manufacturerId}">
+								<input type="hidden" name="manufacturerName"
+									th:value="${manufacturer.manufacturerName}">
+								<button type="submit" class="btn btn-sm btn-success">レビューを見る</button>
+							</form>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<!-- ログインユーザーだけ -->
+		<div sec:authorize="isAuthenticated()" class="card p-3 mb-3 mx-auto text-center">
+			<a th:href="@{/show-review-form}" class="btn btn-outline-secondary">レビューする</a>
+		</div>
+	</div>
+
+
+
+
+	<!-- 管理者専用 -->
+	<div sec:authorize="hasRole('ADMIN')" class="card p-3 shadow-sm">
+		<h4>管理者用操作</h4>
+		<div class="d-flex gap-2 flex-wrap">
+			<form th:action="@{/manufacturer-show-regist}" method="POST">
+				<button type="submit" class="btn btn-warning">メーカー登録</button>
+			</form>
+			<form th:action="@{/manufacturer-remove-show-list}" method="GET">
+				<button type="submit" class="btn btn-danger">メーカー削除</button>
+			</form>
+			<form th:action="@{/admin/show-user-regist-form}" method="GET">
+				<button type="submit" class="btn btn-secondary">ユーザ管理</button>
+			</form>
+		</div>
+	</div>
+
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
