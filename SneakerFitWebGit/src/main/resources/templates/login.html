@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>ログイン</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body class="bg-light">
+
+	<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+
+		<div class="card shadow-lg p-4 border-0" style="width: 100%; max-width: 420px;">
+
+			<!-- タイトル -->
+			<div class="text-center mb-4">
+				<h3 class="fw-bold">ログイン</h3>
+				<p class="text-muted small">SneakerFitへようこそ</p>
+			</div>
+
+			<!-- エラーメッセージ -->
+			<div th:if="${message != null}" th:text="${message}" class="alert alert-danger text-center">
+			</div>
+
+			<!-- ログインフォーム -->
+			<form th:action="@{/login}" method="post">
+
+				<div class="mb-3">
+					<label class="form-label">ユーザーID</label>
+					<input type="text" name="username" class="form-control" placeholder="ユーザーIDを入力" required>
+				</div>
+
+				<div class="mb-3">
+					<label class="form-label">パスワード</label>
+					<input type="password" name="password" class="form-control" placeholder="パスワードを入力" required>
+				</div>
+
+				<div class="d-grid">
+					<button type="submit" class="btn btn-primary">
+						ログイン
+					</button>
+				</div>
+
+			</form>
+
+			<hr>
+
+			<div class="text-center">
+				<a th:href="@{/}" class="text-decoration-none small">
+					トップページに戻る
+				</a>
+			</div>
+
+		</div>
+
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

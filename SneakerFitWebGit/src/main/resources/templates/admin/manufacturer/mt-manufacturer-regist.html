@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>メーカーの登録</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body class="bg-body-tertiary">
+
+	<div class="d-flex justify-content-center align-items-center min-vh-100">
+		<div class="card p-4 shadow-sm" style="max-width: 400px; width: 100%;">
+			
+			<h2 class="text-center mb-4">メーカー登録</h2>
+
+			<form th:action="@{admin/mt-regist}" method="POST" th:object="${mtRegistForm}">
+				<div class="mb-3">
+					<label class="form-label">メーカー名</label>
+					<input type="text" th:field="*{manufacturerName}" class="form-control">
+					<div th:if="${#fields.hasErrors('manufacturerName')}" th:errors="*{manufacturerName}"
+						class="error-msg text-danger mt-1"></div>
+				</div>
+
+				<div class="d-grid">
+					<input type="submit" value="登録" class="btn btn-primary">
+				</div>
+			</form>
+
+			<div class="text-center mt-3">
+				<a th:href="@{/}" class="text-decoration-none">トップページに戻る</a>
+			</div>
+		</div>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>
+
+

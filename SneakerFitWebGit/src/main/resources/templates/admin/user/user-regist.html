@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>ユーザ登録(管理者)</title>
+<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<h2>ユーザ登録 (管理者)</h2>
+
+<form th:action="@{/admin/regist-user}" method="POST" th:object="${userRegistForm}">
+
+<table class="detail-table">
+	<tr>
+		<td class="guide">【ユーザID】</td>
+		<td>
+		   	<input type="text" th:field="*{userId}"><br>
+		   	<div th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}" class="error-msg"></div>
+		</td>
+	</tr>
+	<tr>
+		<td class="guide">【パスワード】</td>
+		<td>
+		   	<input type="password" th:field="*{password}"><br>
+		   	<div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error-msg"></div>
+		</td>
+	</tr>
+	<tr>
+		<td class="guide">【役割】</td>
+		<td>
+    		<select th:field="*{role}" required>
+				<option value="">選択してください。</option>
+				<option value="ROLE_USER">ROLE_USER</option>
+				<option value="ROLE_ADMIN">ROLE_ADMIN</option>
+			</select>
+		   	<div th:if="${#fields.hasErrors('role')}" th:errors="*{role}" class="error-msg"></div>
+		</td>
+	</tr>
+</table>
+
+<input type="submit" value="登録" class="btn">
+
+</form>
+
+<br>
+<a th:href="@{/}">メニューに戻る</a>
+
+</body>
+</html>

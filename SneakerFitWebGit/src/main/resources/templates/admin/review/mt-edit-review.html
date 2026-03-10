@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>管理者編集画面</title>
+	<link rel="stylesheet" th:href="@{/css/review.css}"> <!-- th:の書き方 -->
+</head>
+
+<body>
+	<!-- ===== メイン ===== -->
+	<main class="container">
+		<h1>管理者レビュー編集</h1>
+		
+		<form th:action="@{/mt-edit-review}" method="POST" class="review-form" th:object="${mtEditReviewForm}">
+			<div class="form-group">
+				<label for="reviewID">レビューID : </label>
+				<p type="text" th:field="*{reviewId}"></p>
+				<input type="hidden" th:field="*{reviewId}">
+				<div th:if="${#fields.hasErrors('reviewId')}" th:errors="*{reviewId}" class="error-msg"></div>
+				
+			</div>
+			
+			<!-- ブランド名 -->
+			<div class="form-group">
+				<label for="manufacturer">メーカー名</label>
+				<p th:text="*{manufacturerId} + ' ' + *{manufacturerName}"></p>
+				<input type="hidden" th:field="*{manufacturerId}">
+				<input type="hidden" th:field="*{manufacturerName}">				
+				<div th:if="${#fields.hasErrors('manufacturerName')}" th:errors="*{manufacturerName}" class="error-msg"></div>
+				<!--					th:field="*{manufacturer}"名でフィールド名、値を同時に指定-->
+			</div>
+
+			<!-- モデル名 -->
+			<div class="form-group">
+				<label for="modelName">スニーカーモデル名（20文字以内）</label>
+				<input type="text" th:field="*{modelName}">
+				<div th:if="${#fields.hasErrors('modelName')}" th:errors="*{modelName}" class="error-msg"></div>
+			</div>
+
+			<!-- 足長 -->
+			<div class="form-group">
+				<label for="footLength">足長（cm）</label>
+				<input type="number" th:field="*{footLength}" step="0.1">
+				<div th:if="${#fields.hasErrors('footLength')}" th:errors="*{footLength}" class="error-msg"></div>
+			</div>
+
+			<!-- 足幅 -->
+			<div class="form-group">
+				<label for="footWidth">足幅（cm）</label>
+				<input type="number" th:field="*{footWidth}" step="0.1">
+				<div th:if="${#fields.hasErrors('footWidth')}" th:errors="*{footWidth}" class="error-msg"></div>
+			</div>
+
+			<!-- 足の甲の高さ -->
+			<div class="form-group">
+				<label for="instepHeight">足の甲の高さ（cm）</label>
+				<input type="number" th:field="*{instepHeight}" step="0.1">
+				<div th:if="${#fields.hasErrors('instepHeight')}" th:errors="*{instepHeight}" class="error-msg"></div>
+			</div>
+
+			<!-- 履いたサイズ -->
+			<div class="form-group">
+				<label for="shoeSize">履いたサイズ（cm）</label>
+				<input type="number" th:field="*{shoeSize}" step="0.1">
+				<div th:if="${#fields.hasErrors('shoeSize')}" th:errors="*{shoeSize}" class="error-msg"></div>
+			</div>
+
+			<!-- コメント -->
+			<div class="form-group">
+				<label for="comment">コメント</label>
+				<textarea th:field="*{comment}" rows="4" placeholder="サイズ感や履き心地を"></textarea>
+				<div th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}" class="error-msg"></div>
+			</div>
+			<button type="submit" class="submit-btn">更新</button>
+		</form>
+		<br>
+		<br>
+		<div class="form-group">
+		<a th:href="@{/}">トップに戻る</a>
+		</div>
+	</main>
+	
+
+	
+</body>
+</html>
+<!--	<form th:action="@{/search-review}" method="get" th:object="${mtEditReviewForm}">-->
+<!--		<input type="hidden" th:field="*{manufacturerId}">-->
+<!--		<input type="hidden" th:field="*{manufacturerName}">-->
+<!--		<input type="submit" value="戻る" class="submit-btn">-->
+<!--	</form>-->

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>レビュー 一覧</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body class="bg-light">
+
+	<div class="container py-5">
+
+		<!-- 中央60%ラッパー -->
+		<div class="mx-auto" style="max-width: 60%;">
+
+			<!-- タイトル -->
+			<div class="text-center mb-4">
+				<h2 class="fw-bold">レビュー 一覧</h2>
+				<div th:object="${reviewSearchForm}">
+					<p class="text-muted"
+						th:text="'メーカーID : ' + *{manufacturerId} + ' ｜ メーカー名 : ' + *{manufacturerName}">
+					</p>
+				</div>
+			</div>
+
+			<!-- レビューなし -->
+			<div th:if="${reviewList == null or #lists.isEmpty(reviewList)}" class="alert alert-secondary text-center">
+				レビューがまだ投稿されていません。
+			</div>
+
+			<!-- レビューカード -->
+			<div th:if="${reviewList != null}" th:each="review : ${reviewList}" class="card shadow-sm mb-4 border-0">
+
+				<div class="card-body">
+
+					<!-- タイトル -->
+					<h4 class="fw-bold mb-1" th:text="${review.modelName}">
+					</h4>
+
+					<p class="text-muted mb-3" th:text="${review.manufacturerName}">
+					</p>
+
+					<hr>
+
+					<!-- サイズ情報 -->
+					<div class="row small mb-3">
+						<div class="col-md-3"><strong>サイズ(cm): </strong> <span th:text="${review.shoeSize}"></span>
+						</div>
+						<div class="col-md-3"><strong>足長(cm): </strong> <span th:text="${review.footLength}"></span>
+						</div>
+						<div class="col-md-3"><strong>足幅(cm): </strong> <span th:text="${review.footWidth}"></span>
+						</div>
+						<div class="col-md-3"><strong>甲高(cm): </strong> <span th:text="${review.instepHeight}"></span>
+						</div>
+					</div>
+
+					<!-- コメント-->
+					<div class="p-3 bg-light rounded">
+						<p class="mb-0" style="white-space: pre-wrap; line-height: 1.8;" th:text="${review.comment}">
+						</p>
+					</div>
+
+					<!-- 投稿者 -->
+					<div class="text-end text-muted small mt-3" th:text="'投稿者: ' + ${review.username}">
+					</div>
+
+					<!-- 管理者権限ボタン -->
+					<div sec:authorize="hasRole('ADMIN')" class="d-flex justify-content-end gap-2 mt-3">
+
+						<form th:action="@{/show-edit-form}" method="POST">
+							<input type="hidden" name="reviewId" th:value="${review.reviewId}">
+							<input type="hidden" name="manufacturerId" th:value="${reviewSearchForm.manufacturerId}">
+							<input type="hidden" name="manufacturerName"
+								th:value="${reviewSearchForm.manufacturerName}">
+							<input type="hidden" name="shoeSize" th:value="${review.shoeSize}">
+							<input type="hidden" name="modelName" th:value="${review.modelName}">
+							<input type="hidden" name="footLength" th:value="${review.footLength}">
+							<input type="hidden" name="footWidth" th:value="${review.footWidth}">
+							<input type="hidden" name="instepHeight" th:value="${review.instepHeight}">
+							<input type="hidden" name="comment"  th:value="${review.comment}">
+							<input type="submit" value="編集"    class="btn btn-outline-primary btn-sm"></input>
+						</form>
+
+						<form th:action="@{/mt-remove-review}" method="POST">
+							<input type="hidden" name="reviewId" th:value="${review.reviewId}">
+							<input type="hidden" name="manufacturerId" th:value="${reviewSearchForm.manufacturerId}">
+							<input type="hidden" name="manufacturerName"th:value="${reviewSearchForm.manufacturerName}">
+							<input type="hidden" name="shoeSize" th:value="${review.shoeSize}">
+							<input type="hidden" name="modelName" th:value="${review.modelName}">
+							<input type="hidden" name="footLength" th:value="${review.footLength}">
+							<input type="hidden" name="footWidth" th:value="${review.footWidth}">
+							<input type="hidden" name="instepHeight" th:value="${review.instepHeight}">
+							<input type="hidden" name="comment" th:value="${review.comment}">
+							<input type="submit" value="削除" class="btn btn-outline-danger btn-sm">
+						</form>
+					</div>
+					<!-- ここまで管理者、権限 -->
+				</div>
+			</div>
+
+			<!-- レビューする画面へ     ログインユーザのみ表示 -->
+			<div class="text-center mt-4" sec:authorize="isAuthenticated()">
+				<form th:action="@{/show-review-form}" method="get">
+					<button type="submit" class="btn btn-primary px-4">
+						レビューする
+					</button>
+				</form>
+			</div>
+
+			<div class="text-center mt-3">
+				<a th:href="@{/}" class="text-decoration-none">トップページに戻る</a>
+			</div>
+
+		</div>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
