@@ -1,4 +1,4 @@
-# Spring BootとSpring Securityを用いて開発したスニーカーレビューサイトです。
+# Spring BootとSpring Securityを用いたスニーカーレビューサイトです。
 
 ## 目的
 
