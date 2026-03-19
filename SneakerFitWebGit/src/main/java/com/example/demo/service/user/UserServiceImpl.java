@@ -56,6 +56,17 @@ public class UserServiceImpl implements UserService {
     }
 	/*一般ユーザー登録用*/
 }
+// 処理の流れ
+//
+//フォーム送信
+//    ↓
+//BindingResult でバリデーション（文字数チェック等）
+//    ↓ エラーあり → 登録画面に戻る
+//    ↓ エラーなし
+//selectByUserId() で重複チェック
+//    ↓ 重複あり → IllegalArgumentException → 登録画面にエラー表示
+//    ↓ 重複なし
+//insert() で登録 → 完了画面へ
 
 
 
