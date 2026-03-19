@@ -29,9 +29,9 @@
 				<div class="mb-3">
 					<label class="form-label">ユーザID</label>
 					<input type="text" class="form-control" th:field="*{userId}">
-
 					<div th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}" class="text-danger small mt-1">
 					</div>
+					<div th:if="${duplicateError}" th:text="${duplicateError}" class="text-danger small mt-1"></div>
 				</div>
 
 				<!-- パスワード -->

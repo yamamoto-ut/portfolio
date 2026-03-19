@@ -1,6 +1,7 @@
 package com.example.demo.controller.user;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,7 +45,8 @@ public class UserRegistController {
 	public String confirmRegistUser(
 			@Validated UserRegistForm form,
 			BindingResult result,
-			RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes,
+			Model model) {
 			//入力値のエラーチェック
 		if (result.hasErrors()) {
 			return "user/user-regist";
@@ -54,12 +56,21 @@ public class UserRegistController {
 		user.setUserId(form.getUserId());
 		user.setPassword(form.getPassword());
 		
-		//ユーザ登録処理を呼び出す
-		service.registUser(user);
+		try {
+			//ユーザ登録処理を呼び出す
+			service.registUser(user);
+		} catch (IllegalArgumentException e) {
+			// 重複エラーを登録画面に返す
+			model.addAttribute("userRegistForm", form);// フォームの値をモデルに追加して再表示
+			model.addAttribute("duplicateError", "このユーザIDはすでに使われています。");// エラーメッセージをモデルに追加
+			return "user/user-regist";
+		}
 		
+		//リダイレクト後の完了画面で表示するメッセージを設定する
 		redirectAttributes.addFlashAttribute("msg", "(ユーザ登録)");
 		
 		return "redirect:/complete";
 	}
 
 }
+   

@@ -37,7 +37,14 @@ public class UserServiceImpl implements UserService {
 	@Override
     @Transactional
     public void registUser(User user) {
-        user.setRole("ROLE_USER"); // 強制
+		//ユーザ登録の前に、同じuser_idがすでに存在するかどうかをチェックすることが重要です。
+		// 重複チェック：同じuser_idがすでに存在する場合は例外を投げる
+	    User existing = repository.selectByUserId(user.getUserId()); // user_idでユーザを検索
+	    if (existing != null) {
+	        throw new IllegalArgumentException("このユーザIDはすでに使われています: " + user.getUserId());// 例外を投げることで、呼び出し元でエラーハンドリングが可能になる
+	    }
+	    //-------------------------------------------------------------------------------------------------
+        user.setRole("ROLE_USER"); //ユーザのロールをROLE_USERに設定
         //ハッシュ化なしバージョン
 //        String hashed = "{noop}" + user.getPassword();
         //★正式{bcrypt方式}でハッシュ化
@@ -49,3 +56,7 @@ public class UserServiceImpl implements UserService {
     }
 	/*一般ユーザー登録用*/
 }
+
+
+
+	
