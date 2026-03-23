@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>About - SneakerFit</title>
+
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" th:href="@{/css/index.css}">
+</head>
+
+<body class="bg-light">
+
+	<!-- ヘッダー（そのまま流用） -->
+	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+		<div class="container">
+			<a class="navbar-brand" th:href="@{/}">Sneaker<span class="fw-bold">Fit</span></a>
+
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav ms-auto">
+					<li class="nav-item"><a class="nav-link" th:href="@{/}">Home</a></li>
+					<li class="nav-item"><a class="nav-link active" th:href="@{/about}">About</a></li>
+
+					<li class="nav-item" sec:authorize="isAnonymous()">
+						<a class="nav-link" th:href="@{/login}">Login</a>
+					</li>
+
+					<li class="nav-item" sec:authorize="isAuthenticated()">
+						<form th:action="@{/logout}" method="POST">
+							<button type="submit" class="btn btn-outline-light btn-sm">Logout</button>
+						</form>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<!-- Hero -->
+	<section class="hero text-white text-center py-5 bg-primary">
+		<div class="container">
+			<h1 class="fw-bold">About SneakerFit</h1>
+			<p>スニーカーの「フィット感」を見える化するレビューサイト</p>
+		</div>
+	</section>
+
+	<div class="container w-75 my-5">
+
+		<!-- 概要 -->
+		<div class="card p-4 shadow-sm mb-4">
+			<h3>このサイトについて</h3>
+			<p>
+				SneakerFitは、スニーカー選びで重要な「サイズ感」や「履き心地」に特化したレビューサイトです。
+				見た目だけでなく、実際に履いたときのフィット感を共有することで、
+				自分に合った一足を見つけやすくすることを目的としています。
+			</p>
+		</div>
+
+		<!-- 指標 -->
+		<div class="card p-4 shadow-sm mb-4">
+			<h3>フィット感の評価基準</h3>
+
+			<div class="mb-3">
+				<h5>① 足長</h5>
+				<p>かかとから最も長い指先までの長さ。サイズ選びの基本となる指標です。</p>
+			</div>
+
+			<div class="mb-3">
+				<h5>② 甲の高さ</h5>
+				<p>足の中央付近にある甲の骨から地面までの高さ。圧迫感に影響します。</p>
+			</div>
+
+			<div>
+				<h5>③ 足幅</h5>
+				<p>親指と小指の付け根の横幅。スニーカーとの相性を左右します。</p>
+			</div>
+		</div>
+
+		<!-- 特徴 -->
+		<div class="card p-4 shadow-sm">
+			<h3>レビューの特徴</h3>
+			<ul>
+				<li>実際の足サイズに基づいたリアルなレビュー</li>
+				<li>幅広・甲高など個人差を考慮</li>
+				<li>サイズ選びに役立つ具体的な情報</li>
+			</ul>
+		</div>
+		<!-- メッセージ -->
+		<div class="card p-4 shadow-sm mt-4 text-center">
+			<p class="mb-2">
+				スニーカーは同じサイズ表記でも履き心地が大きく異なります。
+			</p>
+			<p class="fw-bold">
+				このサイトが、あなたにとって最適な一足を見つける手助けになれば幸いです。
+			</p>
+		</div>
+
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

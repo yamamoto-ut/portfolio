@@ -14,6 +14,11 @@ public class HomeController {
     public String index(@ModelAttribute SearchForm form) {
         return "index";
     }
+	//概要ページ
+	@GetMapping("/about")
+	public String showAbout() {
+	    return "about";
+	}
 	
 	//リダイレクト先を指定
 	@GetMapping("/complete")

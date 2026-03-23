@@ -42,7 +42,7 @@ public class WebSecurityConfig {
 		http
 			.authorizeHttpRequests(
 					auth -> auth
-						.requestMatchers("/", "/index").permitAll() //トップページを許可する
+						.requestMatchers("/", "/index", "/about").permitAll() //トップページを許可する
 						.requestMatchers("/menu", "/user/show-user-regist-form", 
 									"/user/regist-user", "/user/confirm-regist-user",
 									"/complete", "/mt-complete").permitAll() //ユーザーの新規登録用の許可
