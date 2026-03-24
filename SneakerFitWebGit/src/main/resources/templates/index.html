@@ -56,7 +56,7 @@
 		<div class="row g-3 mb-4">
 			<!-- 左：検索フォーム（70％） -->
 			<div class="col-12 col-md-8">
-				<div class="card p-3 shadow-sm">
+				<div class="card p-3 shadow-sm h-100">
 					<h4>メーカー検索</h4>
 					<form th:action="@{/manufacturer-search}" method="get" th:object="${searchForm}">
 						<div class="mb-2">
@@ -72,16 +72,21 @@
 
 			<!-- 右：ユーザーカード（30％） -->
 			<div class="col-12 col-md-4">
-				<div class="card p-3 shadow-sm">
+				<div class="card p-3 shadow-sm h-100">
 					<!-- ログイン済み -->
 					<div sec:authorize="isAuthenticated()" class="text-center mb-2">
-						<div>ユーザー: <span sec:authentication="name"></span></div>
+						<p class="text-muted small mb-1">ログイン中</p>
+						<div>ユーザー:  <span sec:authentication="name"></span> さん</div>
 						<a th:href="@{/show-review-form}" class="btn btn-primary btn-sm w-100 mt-2">私もレビューする</a>
+						<form th:action="@{/logout}" method="POST">
+							<button type="submit" class="btn btn-outline-secondary btn-sm w-100 mt-2">ログアウト</button>
+						</form>
 					</div>
 
 					<!-- 未ログイン ゲスト表示する-->
 					<div sec:authorize="isAnonymous()" class="text-center">
-						<div>ユーザー: ゲスト</div>
+						<div>ユーザー: ゲスト  として閲覧中</div>
+						<p class="small mb-3 mb-1">無料登録してレビューを投稿しよう！</p>
 						<form th:action="@{/user/show-user-regist-form}" method="get" class="mt-2">
 							<button type="submit" class="btn btn-outline-secondary btn-sm w-100">新規ユーザー登録</button>
 						</form>
@@ -91,43 +96,46 @@
 			</div>
 		</div>
 
-		
-		<!--tuikaizyutu-->
+
+		<!--タイル式のメーカー  一覧-->
 		<!-- メーカー 一覧（中央に配置）-->
 		<div th:if="${manufacturerList} != null" class="mx-auto mb-4">
-		    <div class="d-flex align-items-center justify-content-between mb-3">
-		        <h5 class="mb-0 fw-medium">メーカー一覧</h5>
-		        <span class="text-muted small">
-		            <span th:text="${manufacturerList.size()}"></span> 件
-		        </span>
-		    </div>
+			
+			<div class="d-flex align-items-center justify-content-center gap-3 mb-3 px-4 py-2 rounded-3 mx-auto bg-white border shadow-sm mb-3">
+			    <h5 class="mb-0 fw-medium">メーカーの一覧</h5>
+			    <span class="badge rounded-pill bg-secondary text-white"
+			          th:text="'計 ' + ${manufacturerList.size()} + ' 件'">
+			    </span>
+			</div>
+			
 
-		    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-		        <div class="col" th:each="manufacturer : ${manufacturerList}">
-		            <div class="manufacturer-card h-100 p-3 rounded-3 bg-white border">
-		                <!-- アイコン + メーカー名 -->
-		                <div class="d-flex align-items-center gap-2 mb-3">
-		                    <div class="manufacturer-icon rounded-circle d-flex align-items-center justify-content-center fw-medium"
-		                         th:data-name="${manufacturer.manufacturerName}">
-		                    </div>
-		                    <p class="fw-medium mb-0 fs-6" th:text="${manufacturer.manufacturerName}"></p>
-		                </div>
+			<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+				<div class="col" th:each="manufacturer : ${manufacturerList}">
+					<div class="manufacturer-card h-100 p-3 rounded-3 bg-white border">
+						<!-- アイコン + メーカー名 -->
+						<div class="d-flex align-items-center gap-2 mb-3">
+							<div class="manufacturer-icon rounded-circle d-flex align-items-center justify-content-center fw-medium"
+								th:data-name="${manufacturer.manufacturerName}">
+							</div>
+							<p class="fw-medium mb-0 fs-6" th:text="${manufacturer.manufacturerName}"></p>
+						</div>
 
-		                <!-- レビュー数 + ボタン -->
-		                <div class="d-flex align-items-center justify-content-between pt-2 border-top">
-		                    <div>
-		                        <span class="fs-5 fw-medium" th:text="${manufacturer.reviewCnt}"></span>
-		                        <span class="text-muted small"> レビュー</span>
-		                    </div>
-		                    <form th:action="@{/search-review}" method="get">
-		                        <input type="hidden" name="manufacturerId" th:value="${manufacturer.manufacturerId}">
-		                        <input type="hidden" name="manufacturerName" th:value="${manufacturer.manufacturerName}">
-		                        <button type="submit" class="btn btn-sm btn-outline-secondary px-3">見る →</button>
-		                    </form>
-		                </div>
-		            </div>
-		        </div>
-		    </div>
+						<!-- レビュー数 + ボタン -->
+						<div class="d-flex align-items-center justify-content-between pt-2 border-top">
+							<div>
+								<span class="fs-5 fw-medium" th:text="${manufacturer.reviewCnt}"></span>
+								<span class="text-muted small"> レビュー</span>
+							</div>
+							<form th:action="@{/search-review}" method="get">
+								<input type="hidden" name="manufacturerId" th:value="${manufacturer.manufacturerId}">
+								<input type="hidden" name="manufacturerName"
+									th:value="${manufacturer.manufacturerName}">
+								<button type="submit" class="btn btn-sm btn-outline-secondary px-3">見る →</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 		<!--tuikaizyutu-->
 
@@ -179,7 +187,7 @@
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 	<script th:src="@{/js/manufacturer-list-icon.js}"></script>
-	
+
 </body>
 
 </html>
