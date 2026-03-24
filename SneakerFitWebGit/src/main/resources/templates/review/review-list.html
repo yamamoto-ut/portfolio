@@ -10,7 +10,34 @@
 </head>
 
 <body class="bg-light">
+	<!-- ヘッダー -->
+	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+		<div class="container">
+			<a class="navbar-brand" th:href="@{/}">Sneaker<span class="fw-bold">Fit</span></a>
 
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav ms-auto">
+					<li class="nav-item"><a class="nav-link" th:href="@{/}">Home</a></li>
+					<li class="nav-item"><a class="nav-link active" th:href="@{/about}">About</a></li>
+					<!-- 未ログインの人だけ表示 -->
+					<li class="nav-item" sec:authorize="isAnonymous()">
+						<a class="nav-link" th:href="@{/login}">Login</a>
+					</li>
+					<!-- ログインの人だけ表示 -->
+					<li class="nav-item" sec:authorize="isAuthenticated()">
+						<form th:action="@{/logout}" method="POST">
+							<button type="submit" class="btn btn-outline-light btn-sm">Logout</button>
+						</form>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<!-- ここまでヘッダー -->
 	<div class="container py-5">
 
 		<!-- 中央60%ラッパー -->
@@ -18,7 +45,7 @@
 
 			<!-- タイトル -->
 			<div class="text-center mb-4">
-				<h2 class="fw-bold">レビュー 一覧</h2>
+				<h2 class="fw-bold">レビュー </h2>
 				<div th:object="${reviewSearchForm}">
 					<p class="text-muted"
 						th:text="'メーカーID : ' + *{manufacturerId} + ' ｜ メーカー名 : ' + *{manufacturerName}">
@@ -27,7 +54,7 @@
 			</div>
 
 			<!-- レビューなし -->
-			<div th:if="${reviewList == null or #lists.isEmpty(reviewList)}" class="alert alert-secondary text-center">
+			<div th:if="${reviewList == null or #lists.isEmpty(reviewList)}" class="alert alert-secondary text-center"> 
 				レビューがまだ投稿されていません。
 			</div>
 
@@ -36,15 +63,15 @@
 
 				<div class="card-body">
 
-					<!-- タイトル -->
-					<h4 class="fw-bold mb-1" th:text="${review.modelName}">
-					</h4>
-
-					<p class="text-muted mb-3" th:text="${review.manufacturerName}">
-					</p>
+					<!-- モデル名 -->
+					<h3 class="mb-1">
+					  <span class="text-muted small">モデル名 :</span>
+					  <span class="fw-bold" th:text="${review.modelName}"></span>
+					</h3>
+					<!-- メーカー名 -->
+					<p class="text-muted mb-3" th:text="${review.manufacturerName}"></p>
 
 					<hr>
-
 					<!-- サイズ情報 -->
 					<div class="row small mb-3">
 						<div class="col-md-3"><strong>サイズ(cm): </strong> <span th:text="${review.shoeSize}"></span>
@@ -56,13 +83,10 @@
 						<div class="col-md-3"><strong>甲高(cm): </strong> <span th:text="${review.instepHeight}"></span>
 						</div>
 					</div>
-
 					<!-- コメント-->
 					<div class="p-3 bg-light rounded">
-						<p class="mb-0" style="white-space: pre-wrap; line-height: 1.8;" th:text="${review.comment}">
-						</p>
+						<p class="mb-0" style="white-space: pre-wrap; line-height: 1.8;" th:text="${review.comment}"></p>
 					</div>
-
 					<!-- 投稿者 -->
 					<div class="text-end text-muted small mt-3" th:text="'投稿者: ' + ${review.username}">
 					</div>
@@ -80,14 +104,15 @@
 							<input type="hidden" name="footLength" th:value="${review.footLength}">
 							<input type="hidden" name="footWidth" th:value="${review.footWidth}">
 							<input type="hidden" name="instepHeight" th:value="${review.instepHeight}">
-							<input type="hidden" name="comment"  th:value="${review.comment}">
-							<input type="submit" value="編集"    class="btn btn-outline-primary btn-sm"></input>
+							<input type="hidden" name="comment" th:value="${review.comment}">
+							<input type="submit" value="編集" class="btn btn-outline-primary btn-sm"></input>
 						</form>
 
 						<form th:action="@{/mt-remove-review}" method="POST">
 							<input type="hidden" name="reviewId" th:value="${review.reviewId}">
 							<input type="hidden" name="manufacturerId" th:value="${reviewSearchForm.manufacturerId}">
-							<input type="hidden" name="manufacturerName"th:value="${reviewSearchForm.manufacturerName}">
+							<input type="hidden" name="manufacturerName"
+								th:value="${reviewSearchForm.manufacturerName}">
 							<input type="hidden" name="shoeSize" th:value="${review.shoeSize}">
 							<input type="hidden" name="modelName" th:value="${review.modelName}">
 							<input type="hidden" name="footLength" th:value="${review.footLength}">
@@ -116,7 +141,27 @@
 
 		</div>
 	</div>
+	<!--ここからfooter-->
+	<footer class="bg-dark text-white mt-5 py-4">
+		<div class="container text-center">
 
+			<!-- サイト名 -->
+			<h5 class="mb-3">SneakerFit</h5>
+
+			<!-- お問い合わせ -->
+			<div class="mb-3">
+				<p class="mb-1">お問い合わせ</p>
+				<p class="small">sneakerfit@example.com</p>
+			</div>
+
+			<!-- コピーライト -->
+			<p class="mb-0 small">
+				© 2026 SneakerFit. All rights reserved.
+			</p>
+
+		</div>
+	</footer>
+	<!--ここまでフッター-->
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
