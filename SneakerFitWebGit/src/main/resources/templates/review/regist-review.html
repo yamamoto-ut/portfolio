@@ -53,18 +53,14 @@
 				<!--				<input type="text"  th:field="*{manufacturer}" >-->
 				<select id="manufacturer" th:field="*{manufacturerId}" required>
 					<option value="">メーカーを選択</option>
-					<option value="1">その他</option>
-					<option value="2">adidas</option>
-					<option value="3">アシックス</option>
-					<option value="4">Converse(コンバース)</option>
-					<option value="5">New Balance(ニューバランス)</option>
-					<option value="6">NIKE</option>
-					<option value="7">Puma</option>
-					<option value="8">Vans</option>
-					<option value="9">Mizuno(ミズノ)</option>
+					<option th:each="manufacturer : ${manufacturerList}" th:value="${manufacturer.manufacturerId}"
+						th:text="${manufacturer.manufacturerName}">
+					</option>
 				</select>
 
-				<div th:if="${#fields.hasErrors('manufacturerId')}" th:errors="*{manufacturerId}" class="error-msg"></div>
+
+				<div th:if="${#fields.hasErrors('manufacturerId')}" th:errors="*{manufacturerId}" class="error-msg">
+				</div>
 				<!--					th:field="*{manufacturer}"名でフィールド名、値を同時に指定-->
 			</div>
 

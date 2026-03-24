@@ -2,9 +2,13 @@
 
 import java.util.List;
 
+import com.example.demo.entity.Manufacturer;
 import com.example.demo.entity.Review;
 
 public interface ReviewRepository {
+	
+	List<Manufacturer> findAllManufacturereName();
+	
 	//DBへのレビュー登録を行うメソッド
 	void add(Review review);
 

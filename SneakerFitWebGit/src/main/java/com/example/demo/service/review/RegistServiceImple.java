@@ -1,7 +1,10 @@
 package com.example.demo.service.review;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
+import com.example.demo.entity.Manufacturer;
 import com.example.demo.entity.Review;
 import com.example.demo.repository.review.ReviewRepository;
 
@@ -28,5 +31,11 @@ public class RegistServiceImple implements RegistService {
 //        return sneakerRepository.findNameById(manufacturerId);
         return repository.findNameById(manufacturerId);
     }
-	/*----------------ここまで追加分------------------------*/
+	
+	
+	@Override
+	public List<Manufacturer> findAllManufacturereName() {
+		//DBからメーカー名のリストを取得するための実装
+		return repository.findAllManufacturereName();
+	}
 }

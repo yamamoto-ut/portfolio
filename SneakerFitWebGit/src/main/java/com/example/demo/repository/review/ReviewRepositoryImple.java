@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.example.demo.entity.Manufacturer;
 import com.example.demo.entity.Review;
 
 import lombok.RequiredArgsConstructor;
@@ -140,6 +141,28 @@ public class ReviewRepositoryImple implements ReviewRepository {
 	            
 	        return jdbcTemplate.queryForObject(sql, String.class, manufacturerId);
 	    //jdbcTemplateのqueryForObject() methodを使用してSQLのSELECT文を実行する。引数は、SQL文、戻り値の型、プレースホルダに渡す値	
+	}
+	
+	
+	//メーカー名の一覧を取得するための追加分
+	@Override
+	public List<Manufacturer> findAllManufacturereName() {
+		 String sql = "SELECT manufacturer_id, manufacturer_name FROM m_sneaker";
+		 //SQL文を定義する。m_sneakerテーブルからmanufacturer_idとmanufacturer_nameを選択するSELECT文
+		 List<Map<String, Object>> list = jdbcTemplate.queryForList(sql);
+		 //jdbcTemplateのqueryForList() methodを使用してSQLのSELECT文を実行する。戻り値は、List<Map<String, Object>>型で、各Mapは1行分のデータを表す。Mapのキーは列名、値は列の値となる。
+		 List<Manufacturer> result = new ArrayList<Manufacturer>();
+		 
+		 for (Map<String, Object> i : list) {
+			 Manufacturer manufacturer = new Manufacturer();
+			 manufacturer.setManufacturerId((int) i.get("manufacturer_id"));
+			 manufacturer.setManufacturerName((String) i.get("manufacturer_name"));
+			 result.add(manufacturer);
+		 }
+		 
+		 return result;
+		 
+		 
 	}
 
 }

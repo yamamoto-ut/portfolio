@@ -3,6 +3,7 @@ package com.example.demo.controller.review;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,24 +28,26 @@ public class RegistController {
 	
 	/*--- レビュー登録画面表示リクエスト ---*/
 	@GetMapping("/show-review-form")
-	public String showReviews( @ModelAttribute ReviewRegistForm form) {
+	public String showReviews( @ModelAttribute ReviewRegistForm form, Model model) {
+		model.addAttribute("manufacturerList", service.findAllManufacturereName());
 		return "review/regist-review";
 	}
 	
 	//確認画面からの戻るボタンを押したとき
 	@PostMapping("/back-review-form")
-	public String backReview(@ModelAttribute ReviewRegistForm form) {
-		//自動的にmodel.addAttribute("reviewRegistForm", new ReviewRegistForm());
+	public String backReview(@ModelAttribute ReviewRegistForm form, Model model) {
+		model.addAttribute("manufacturerList", service.findAllManufacturereName());
 		return "review/regist-review";
 	}
 	
 	// (レビューをPOSTしたとき、@Validatedリクエストパラメータをformオブジェクトに設定するときに
 	//Validationをおこなって、その結果をModelに格納 BindingResult resultでvalidationの結果を判定する
 	@PostMapping("/regist-review")
-	public String submitReview(@Validated @ModelAttribute ReviewRegistForm form, BindingResult result) {
+	public String submitReview(@Validated @ModelAttribute ReviewRegistForm form, BindingResult result, Model model) {
 		//自動的Model //reviewRegistForm （先頭小文字になる）クラスのフィールドの値が束ねられる
 		if (result.hasErrors()) {
-			//errorの場合
+			//errorの場合,登録画面に戻す
+			 model.addAttribute("manufacturerList", service.findAllManufacturereName());
 			return "review/regist-review";
 		}
 		/*----------------追加分------------------------*/
