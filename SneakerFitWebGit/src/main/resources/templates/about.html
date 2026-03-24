@@ -25,11 +25,11 @@
 				<ul class="navbar-nav ms-auto">
 					<li class="nav-item"><a class="nav-link" th:href="@{/}">Home</a></li>
 					<li class="nav-item"><a class="nav-link active" th:href="@{/about}">About</a></li>
-
+					<!-- 未ログインの人だけ表示 -->
 					<li class="nav-item" sec:authorize="isAnonymous()">
 						<a class="nav-link" th:href="@{/login}">Login</a>
 					</li>
-
+		            <!-- ログインの人だけ表示 -->		
 					<li class="nav-item" sec:authorize="isAuthenticated()">
 						<form th:action="@{/logout}" method="POST">
 							<button type="submit" class="btn btn-outline-light btn-sm">Logout</button>
@@ -47,14 +47,16 @@
 			<p>スニーカーの「フィット感」を見える化するレビューサイト</p>
 		</div>
 	</section>
-
+	<!-- ここまでHero -->
+	<!-- メインコンテナ -->
 	<div class="container w-75 my-5">
 
 		<!-- 概要 -->
 		<div class="card p-4 shadow-sm mb-4">
-			<h3>このサイトについて</h3>
+			<h3 class="text-center mb-3">このサイトについて</h3>
 			<p>
-				SneakerFitは、スニーカー選びで重要な「サイズ感」や「履き心地」に特化したレビューサイトです。
+				SneakerFitは、サイズ選びで失敗したくない人のため,
+				スニーカー選びで重要な「サイズ感」や「履き心地」に特化したレビューサイトです。
 				見た目だけでなく、実際に履いたときのフィット感を共有することで、
 				自分に合った一足を見つけやすくすることを目的としています。
 			</p>
@@ -62,7 +64,7 @@
 
 		<!-- 指標 -->
 		<div class="card p-4 shadow-sm mb-4">
-			<h3>フィット感の評価基準</h3>
+			<h3 class="text-center mb-3">足のサイズの測り方</h3>
 
 			<div class="mb-3">
 				<h5>① 足長</h5>
@@ -82,7 +84,7 @@
 
 		<!-- 特徴 -->
 		<div class="card p-4 shadow-sm">
-			<h3>レビューの特徴</h3>
+			<h3 class="text-center mb-3">レビューの特徴</h3>
 			<ul>
 				<li>実際の足サイズに基づいたリアルなレビュー</li>
 				<li>幅広・甲高など個人差を考慮</li>
@@ -100,7 +102,27 @@
 		</div>
 
 	</div>
+	<!--footer-->
+		<footer class="bg-dark text-white mt-5 py-4">
+			<div class="container text-center">
 
+				<!-- サイト名 -->
+				<h5 class="mb-3">SneakerFit</h5>
+
+				<!-- お問い合わせ -->
+				<div class="mb-3">
+					<p class="mb-1">お問い合わせ</p>
+					<p class="small">sneakerfit@example.com</p>
+				</div>
+
+				<!-- コピーライト -->
+				<p class="mb-0 small">
+					© 2026 SneakerFit. All rights reserved.
+				</p>
+
+			</div>
+		</footer>
+		<!--ここまでフッター-->
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
