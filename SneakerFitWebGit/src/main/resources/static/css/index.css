@@ -55,6 +55,26 @@ body::before {
     text-shadow: 5px 5px 10px rgba(0,0,0,0.6);
 }
 
+/* メーカーカード */
+.manufacturer-card {
+    transition: border-color 0.15s, box-shadow 0.15s;
+    border-color: rgba(0, 0, 0, 0.1) !important;
+    cursor: default;
+}
+
+.manufacturer-card:hover {
+    border-color: rgba(0, 0, 0, 0.3) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+}
+
+/* 頭文字アイコン */
+.manufacturer-icon {
+    width: 42px;
+    height: 42px;
+    font-size: 13px;
+    flex-shrink: 0;
+}
+
 /* レスポンシブ対応 */
 @media (max-width: 768px) {
     .hero-section {

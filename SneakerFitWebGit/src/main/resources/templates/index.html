@@ -91,36 +91,47 @@
 			</div>
 		</div>
 
+		
+		<!--tuikaizyutu-->
 		<!-- メーカー 一覧（中央に配置）-->
-		<div th:if="${manufacturerList} != null" class="card p-3 shadow-sm mx-auto mb-4">
-			<h4 class="text-center">メーカー  一覧</h4>
-			<table class="table table-striped table-hover text-center">
-				<thead>
-					<tr>
-						<th>ID</th>
-						<th>名前</th>
-						<th>レビュー数</th>
-						<th>操作</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="manufacturer : ${manufacturerList}">
-						<td th:text="${manufacturer.manufacturerId}"></td>
-						<td th:text="${manufacturer.manufacturerName}"></td>
-						<td th:text="${manufacturer.reviewCnt}"></td>
-						<td>
-							<form th:action="@{/search-review}" method="get">
-								<input type="hidden" name="manufacturerId" th:value="${manufacturer.manufacturerId}">
-								<input type="hidden" name="manufacturerName"
-									th:value="${manufacturer.manufacturerName}">
-								<button type="submit" class="btn btn-sm btn-success">レビューを見る</button>
-							</form>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+		<div th:if="${manufacturerList} != null" class="mx-auto mb-4">
+		    <div class="d-flex align-items-center justify-content-between mb-3">
+		        <h5 class="mb-0 fw-medium">メーカー一覧</h5>
+		        <span class="text-muted small">
+		            <span th:text="${manufacturerList.size()}"></span> 件
+		        </span>
+		    </div>
+
+		    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+		        <div class="col" th:each="manufacturer : ${manufacturerList}">
+		            <div class="manufacturer-card h-100 p-3 rounded-3 bg-white border">
+		                <!-- アイコン + メーカー名 -->
+		                <div class="d-flex align-items-center gap-2 mb-3">
+		                    <div class="manufacturer-icon rounded-circle d-flex align-items-center justify-content-center fw-medium"
+		                         th:data-name="${manufacturer.manufacturerName}">
+		                    </div>
+		                    <p class="fw-medium mb-0 fs-6" th:text="${manufacturer.manufacturerName}"></p>
+		                </div>
+
+		                <!-- レビュー数 + ボタン -->
+		                <div class="d-flex align-items-center justify-content-between pt-2 border-top">
+		                    <div>
+		                        <span class="fs-5 fw-medium" th:text="${manufacturer.reviewCnt}"></span>
+		                        <span class="text-muted small"> レビュー</span>
+		                    </div>
+		                    <form th:action="@{/search-review}" method="get">
+		                        <input type="hidden" name="manufacturerId" th:value="${manufacturer.manufacturerId}">
+		                        <input type="hidden" name="manufacturerName" th:value="${manufacturer.manufacturerName}">
+		                        <button type="submit" class="btn btn-sm btn-outline-secondary px-3">見る →</button>
+		                    </form>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
 		</div>
-		<!-- ログインユーザーだけ -->
+		<!--tuikaizyutu-->
+
+		<!-- ログインユーザーだけレビューボタン -->
 		<div sec:authorize="isAuthenticated()" class="card p-3 mb-3 mx-auto text-center">
 			<a th:href="@{/show-review-form}" class="btn btn-outline-secondary">レビューする</a>
 		</div>
@@ -163,10 +174,44 @@
 			</form>
 		</div>
 	</div>
-
+	<!-- ここまで管理者専用 -->
 	</div>
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+	<script th:src="@{/js/manufacturer-list-icon.js}"></script>
+	
 </body>
 
 </html>
+
+
+<!-- 旧　メーカー 一覧　テーブル式のバージョン-->
+<!--		<div th:if="${manufacturerList} != null" class="card p-3 shadow-sm mx-auto mb-4">-->
+<!--			<h4 class="text-center">メーカー  一覧</h4>-->
+<!--			<table class="table table-striped table-hover text-center">-->
+<!--				<thead>-->
+<!--					<tr>-->
+<!--						<th>ID</th>-->
+<!--						<th>名前</th>-->
+<!--						<th>レビュー数</th>-->
+<!--						<th>操作</th>-->
+<!--					</tr>-->
+<!--				</thead>-->
+<!--				<tbody>-->
+<!--					<tr th:each="manufacturer : ${manufacturerList}">-->
+<!--						<td th:text="${manufacturer.manufacturerId}"></td>-->
+<!--						<td th:text="${manufacturer.manufacturerName}"></td>-->
+<!--						<td th:text="${manufacturer.reviewCnt}"></td>-->
+<!--						<td>-->
+<!--							<form th:action="@{/search-review}" method="get">-->
+<!--								<input type="hidden" name="manufacturerId" th:value="${manufacturer.manufacturerId}">-->
+<!--								<input type="hidden" name="manufacturerName"-->
+<!--									th:value="${manufacturer.manufacturerName}">-->
+<!--								<button type="submit" class="btn btn-sm btn-success">レビューを見る</button>-->
+<!--							</form>-->
+<!--						</td>-->
+<!--					</tr>-->
+<!--				</tbody>-->
+<!--			</table>-->
+<!--		</div>-->
+<!--		 ここまでメーカー検索 -->
