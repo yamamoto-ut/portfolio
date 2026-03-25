@@ -165,4 +165,74 @@ public class ReviewRepositoryImple implements ReviewRepository {
 		 
 	}
 
+	@Override
+	public List<Review> findReviewsByManufacturerIdWithFilters(Integer manufacturerId, String modelName,
+			BigDecimal footLength, BigDecimal footWidth, BigDecimal instepHeight) {
+		
+		
+		StringBuilder sql = new StringBuilder(
+		        "SELECT r.review_id, r.manufacturer_id, m.manufacturer_name, "
+		      + "r.user_id, u.user_id AS username, r.model_name, "
+		      + "r.shoe_size, r.foot_length, r.foot_width, r.instep_height, r.comment "
+		      + "FROM foot_review r "
+		      + "JOIN m_sneaker m ON r.manufacturer_id = m.manufacturer_id "
+		      + "JOIN s_user u ON r.user_id = u.user_id "
+		      + "WHERE r.manufacturer_id = ? "
+		    );
+
+		    List<Object> params = new ArrayList<>();
+		    params.add(manufacturerId);
+
+		    // モデル名（部分一致）
+		    if (modelName != null && !modelName.isBlank()) {
+		        sql.append("AND r.model_name LIKE ? ");
+		        params.add("%" + modelName + "%");
+		    }
+
+		 // スコア計算（入力された項目だけ差を加算）
+		    StringBuilder scoreExpr = new StringBuilder();
+		    if (footLength != null) {
+		        scoreExpr.append("ABS(r.foot_length - ?)");
+		        params.add(footLength);
+		    }
+		    if (footWidth != null) {
+		        if (scoreExpr.length() > 0) scoreExpr.append(" + ");
+		        scoreExpr.append("ABS(r.foot_width - ?)");
+		        params.add(footWidth);
+		    }
+		    if (instepHeight != null) {
+		        if (scoreExpr.length() > 0) scoreExpr.append(" + ");
+		        scoreExpr.append("ABS(r.instep_height - ?)");
+		        params.add(instepHeight);
+		    }
+
+		    if (scoreExpr.length() > 0) {
+		        sql.append("ORDER BY ").append(scoreExpr);
+		    }
+		    
+
+		    List<Map<String, Object>> list = jdbcTemplate.queryForList(
+		        sql.toString(), params.toArray()
+		    );
+
+		    // Reviewオブジェクトに変換（既存と同じ）
+		    List<Review> result = new ArrayList<>();
+		    for (Map<String, Object> row : list) {
+		        Review review = new Review();
+		        review.setReviewId((int) row.get("review_id"));
+		        review.setUsername((String) row.get("username"));
+		        review.setManufacturerId((int) row.get("manufacturer_id"));
+		        review.setManufacturerName((String) row.get("manufacturer_name"));
+		        review.setModelName((String) row.get("model_name"));
+		        review.setShoeSize((BigDecimal) row.get("shoe_size"));
+		        review.setFootLength((BigDecimal) row.get("foot_length"));
+		        review.setFootWidth((BigDecimal) row.get("foot_width"));
+		        review.setInstepHeight((BigDecimal) row.get("instep_height"));
+		        review.setComment((String) row.get("comment"));
+		        result.add(review);
+		    }
+		    return result;
+		
+	}
+
 }

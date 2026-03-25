@@ -12,7 +12,7 @@
 <body class="bg-light d-flex flex-column min-vh-100">
 	<!-- ヘッダー -->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-		<div class="container">
+		<di v class="container">
 			<a class="navbar-brand" th:href="@{/}">Sneaker<span class="fw-bold">Fit</span></a>
 
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -35,14 +35,70 @@
 					</li>
 				</ul>
 			</div>
-		</div>
+			</div>
 	</nav>
 	<!-- ここまでヘッダー -->
 	<div class="container py-5 flex-grow-1">
 
 		<!-- 中央60%ラッパー -->
 		<div class="mx-auto" style="max-width: 60%;">
+			<!-- ↓ここから絞り込みフォームを追加 -->
+			<div class="card shadow-sm mb-3 border-0">
+				<div class="card-body">
+					<h5 class="fw-bold mb-2">絞り込み検索</h5>
+					<form th:action="@{/search-review}" method="get" th:object="${reviewSearchForm}">
 
+						<!-- メーカーIDとメーカー名はhiddenで引き継ぐ -->
+						<input type="hidden" th:field="*{manufacturerId}">
+						<input type="hidden" th:field="*{manufacturerName}">
+
+						<div class="row g-3">
+							<!-- モデル名 -->
+							<div class="col-md-12">
+								<label class="form-label">モデル名</label>
+								<input type="text" class="form-control" th:field="*{modelName}" placeholder="例：Air Max">
+								<div th:if="${#fields.hasErrors('modelName')}" th:errors="*{modelName}"
+									class="text-danger small"></div>
+							</div>
+							<!-- 足長 -->
+							<div class="col-md-3">
+								<div class="d-flex align-items-center ">
+									<label class="form-label">足長（cm）</label>
+									<input type="number" class="form-control" th:field="*{footLength}" step="0.1"
+										placeholder="例：26.0">
+								</div>
+								<div th:if="${#fields.hasErrors('footLength')}" th:errors="*{footLength}"
+									class="text-danger small"></div>
+							</div>
+							<!-- 足幅 -->
+							<div class="col-md-3">
+								<div class="d-flex align-items-center">
+									<label class="form-label">足幅（cm）</label>
+									<input type="number" class="form-control" th:field="*{footWidth}" step="0.1"
+										placeholder="例：9.5">
+								</div>
+								<div th:if="${#fields.hasErrors('footWidth')}" th:errors="*{footWidth}"
+									class="text-danger small"></div>
+							</div>
+							<!-- 甲高 -->
+							<div class="col-md-3">
+								<div class="d-flex align-items-center">
+									<label class="form-label">甲高（cm）</label>
+									<input type="number" class="form-control" th:field="*{instepHeight}" step="0.1"
+										placeholder="例：6.5">
+								</div>
+								<div th:if="${#fields.hasErrors('instepHeight')}" th:errors="*{instepHeight}"
+									class="text-danger small"></div>
+							</div>
+						</div>
+
+						<div class="text-end mt-3">
+							<button type="submit" class="btn btn-primary">絞り込む</button>
+						</div>
+					</form>
+				</div>
+			</div>
+			<!-- ↑ここまで絞り込みフォーム -->
 			<!-- タイトル -->
 			<div class="text-center mb-4">
 				<h2 class="fw-bold">レビュー </h2>
@@ -53,8 +109,9 @@
 				</div>
 			</div>
 
+
 			<!-- レビューなし -->
-			<div th:if="${reviewList == null or #lists.isEmpty(reviewList)}" class="alert alert-secondary text-center"> 
+			<div th:if="${reviewList == null or #lists.isEmpty(reviewList)}" class="alert alert-secondary text-center">
 				レビューがまだ投稿されていません。
 			</div>
 
@@ -65,8 +122,8 @@
 
 					<!-- モデル名 -->
 					<h3 class="mb-1">
-					  <span class="text-muted small">モデル名 :</span>
-					  <span class="fw-bold" th:text="${review.modelName}"></span>
+						<span class="text-muted small">モデル名 :</span>
+						<span class="fw-bold" th:text="${review.modelName}"></span>
 					</h3>
 					<!-- メーカー名 -->
 					<p class="text-muted mb-3" th:text="${review.manufacturerName}"></p>
@@ -85,7 +142,8 @@
 					</div>
 					<!-- コメント-->
 					<div class="p-3 bg-light rounded">
-						<p class="mb-0" style="white-space: pre-wrap; line-height: 1.8;" th:text="${review.comment}"></p>
+						<p class="mb-0" style="white-space: pre-wrap; line-height: 1.8;" th:text="${review.comment}">
+						</p>
 					</div>
 					<!-- 投稿者 -->
 					<div class="text-end text-muted small mt-3" th:text="'投稿者: ' + ${review.username}">
