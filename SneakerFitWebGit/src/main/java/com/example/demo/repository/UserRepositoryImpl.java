@@ -38,7 +38,8 @@ public class UserRepositoryImpl implements UserRepository {
 		String sql = " SELECT "
 				+ " user_id, "
 				+ " password, "
-				+ " role "
+				+ " role, "
+				+ " is_deleted "
 				+ " FROM "
 				+ " s_user "
 				+ " WHERE "
@@ -59,6 +60,17 @@ public class UserRepositoryImpl implements UserRepository {
 			user.setUserId((String)one.get("user_id"));    //userオブジェクトのuserIdにsetterを使って設定
 			user.setPassword((String)one.get("password"));  //DBから取得した値をuserオブジェクトに設定
 			user.setRole((String)one.get("role"));
+			
+			
+			Object deletedVal = one.get("is_deleted");
+			boolean isDeleted = false;
+			if (deletedVal instanceof Boolean) {
+			    isDeleted = (Boolean) deletedVal;
+			} else if (deletedVal instanceof Number) {
+			    isDeleted = ((Number) deletedVal).intValue() == 1;
+			}
+			user.setDeleted(isDeleted);
+			 
 			
 		}catch (EmptyResultDataAccessException e) {
 			//対象データが存在しない場合nullを設定

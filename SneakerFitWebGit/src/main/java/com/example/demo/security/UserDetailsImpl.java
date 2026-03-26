@@ -28,6 +28,8 @@ public class UserDetailsImpl implements UserDetails {
 	private final String username;
 	private final String password;
 	private final Collection<?extends GrantedAuthority> authorities;
+	
+	private final boolean deleted;
 	//GrantedAuthorityを継承したクラスをジェネリクスした、コレクション型、 <----よくわからない。勉強不足
 	//権限（役割）を複数持つように設定している   
 	//GrantedAuthorityは権限を表すオブジェクト USERかADMINか
@@ -40,7 +42,17 @@ public class UserDetailsImpl implements UserDetails {
 		password = user.getPassword();
 		authorities = AuthorityUtils.createAuthorityList(user.getRole()); 
 		//DBから得たroleを渡して目的の型の結果をわたす。
+		deleted = user.isDeleted();
 	}
+	
+	
+	 // 追加：アカウントが有効かどうかをSpring Securityに伝える
+    @Override
+    public boolean isEnabled() {
+        return !deleted; // is_deleted=trueならログイン不可
+    }
+	
+	
 	//ユーザーの権限を返すメソッド
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

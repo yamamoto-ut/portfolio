@@ -14,7 +14,9 @@ public class User {
 	
 	//role 管理者か一般ユーザーか
 	private String role;
-
+	
+	//ユーザが削除されているかどうか
+	private boolean deleted;
 }
 
 

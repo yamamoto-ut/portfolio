@@ -18,7 +18,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor //finalのついたフィールドを初期化するコンストラクタが自動生成
 public class UserDetailsServiceImpl implements UserDetailsService {
 		
-
 	private final UserRepository userRepository;
 	
 	//Spring Securityでは、ユーザIDにあたるものをusernameという変数で表現している
