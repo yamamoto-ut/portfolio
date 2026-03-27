@@ -81,6 +81,7 @@
 						<div>ユーザー:  <span sec:authentication="name"></span> さん</div>
 						<a th:href="@{/show-review-form}" class="btn btn-primary btn-sm w-100 mt-2">私もレビューする</a>
 						<a th:href="@{/mypage}" class="btn btn-outline-primary btn-sm w-100 mt-2">マイページ</a>
+						<div th:if="${deleteAccountMsg}" class="alert alert-warning mt-2" th:text="${deleteAccountMsg}"></div>
 						<form th:action="@{/logout}" method="POST">
 							<button type="submit" class="btn btn-outline-secondary btn-sm w-100 mt-2">ログアウト</button>
 						</form>

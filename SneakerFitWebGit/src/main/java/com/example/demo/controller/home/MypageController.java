@@ -53,8 +53,8 @@ public class MypageController {
 
 		// セッションを無効化（強制ログアウト）
 		session.invalidate();
-
-		redirectAttributes.addFlashAttribute("msg", "アカウントを削除しました");
+		// フラッシュ属性にメッセージを追加してリダイレクト
+		redirectAttributes.addFlashAttribute("deleteAccountMsg", "アカウントを削除しました");
 		return "redirect:/";
 	}
 }
