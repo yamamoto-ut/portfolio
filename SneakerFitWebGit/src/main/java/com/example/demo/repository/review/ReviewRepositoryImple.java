@@ -180,6 +180,9 @@ public class ReviewRepositoryImple implements ReviewRepository {
 		      + "WHERE r.manufacturer_id = ? "
 		    );
 
+		
+			//ユーザーの足サイズとレビューの足サイズの差分を数値化し、
+		//その合計が小さい順に並べることで、サイズ感が近いレビューを優先表示しています
 		    List<Object> params = new ArrayList<>();
 		    params.add(manufacturerId);
 
