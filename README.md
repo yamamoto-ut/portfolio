@@ -141,4 +141,17 @@ Spring Securityには、アカウントの有効期限などを制御できる�
 
 ---
 
+## システム構成
 
+
+| 項目 | 内容 |
+|------|------|
+| サーバー | さくらVPS（Ubuntu 24.04） |
+| Webサーバー | Nginx（リバースプロキシ・SSL終端） |
+| バックエンド | Java 21 / Spring Boot |
+| フロントエンド | Thymeleaf / Bootstrap 5 |
+| データベース | MySQL 8.0 |
+| 認証 | Spring Security（BCrypt） |
+| 常駐化 | systemd |
+| SSL | Let's Encrypt（Certbot） |
+| ドメイン | sneakerreviewlab.com |
