@@ -143,8 +143,6 @@ Spring Securityには、アカウントの有効期限などを制御できる�
 
 ## システム構成
 
-![システム構成図](<img width="1070" height="899" alt="構成図2026-03-28 230303" src="https://github.com/user-attachments/assets/7b12426d-db28-4397-bc78-a277ed4053cf" />
-)
 
 | 項目 | 内容 |
 |------|------|
